@@ -1,17 +1,18 @@
-"use client"
+"use client";
 
-import { useSession } from "next-auth/react"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { useState } from "react"
-import SessionData from "./session-data"
-import CustomLink from "./custom-link"
+import { useSession } from "next-auth/react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { useState } from "react";
+import SessionData from "./session-data";
+import CustomLink from "./custom-link";
 
 const UpdateForm = () => {
-  const { data: session, update } = useSession()
-  const [name, setName] = useState(session?.user?.name ?? "")
+  const { data: session, update } = useSession();
+  console.log(session);
+  const [name, setName] = useState(session?.user?.name ?? "");
 
-  if (!session?.user) return null
+  if (!session?.user) return null;
   return (
     <>
       <h2 className="text-xl font-bold">Updating the session</h2>
@@ -21,8 +22,8 @@ const UpdateForm = () => {
             const newSession = await update({
               ...session,
               user: { ...session.user, name },
-            })
-            console.log({ newSession })
+            });
+            console.log({ newSession });
           }
         }}
         className="flex items-center w-full max-w-sm space-x-2"
@@ -32,17 +33,17 @@ const UpdateForm = () => {
           placeholder={session.user.name ?? ""}
           value={name}
           onChange={(e) => {
-            setName(e.target.value)
+            setName(e.target.value);
           }}
         />
         <Button type="submit">Update</Button>
       </form>
     </>
-  )
-}
+  );
+};
 
 export default function ClientExample() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
   return (
     <div className="space-y-2">
       <h1 className="text-3xl font-bold">Client Side Rendering Usage</h1>
@@ -77,5 +78,5 @@ export default function ClientExample() {
       )}
       <UpdateForm />
     </div>
-  )
+  );
 }
