@@ -13,7 +13,7 @@ export default function ProviderWrapper({ children }: React.PropsWithChildren) {
         walletConnectors: [EthereumWalletConnectors],
         eventsCallbacks: {
           onAuthSuccess: async (event) => {
-            console.log(event);
+            console.log("auth success from Dynamic", event);
             const { authToken } = event;
 
             const csrfToken = await getCsrfToken();
@@ -29,9 +29,9 @@ export default function ProviderWrapper({ children }: React.PropsWithChildren) {
             })
               .then((res) => {
                 if (res.ok) {
-                  console.log(res);
+                  console.log("auth success from nextAuth", res);
                   // Handle success - maybe redirect to the home page or user dashboard
-                  // window.location.href = "/";
+                  window.location.reload();
                 } else {
                   // Handle any errors - maybe show an error message to the user
                   console.error("Failed to log in");

@@ -1,15 +1,26 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SessionData from "./session-data";
 import CustomLink from "./custom-link";
 
 const UpdateForm = () => {
+  const { user } = useDynamicContext();
   const { data: session, update } = useSession();
   console.log(session);
+
+  useEffect(() => {
+    console.log(user);
+
+    if (!user && session?.user) {
+      signOut();
+    }
+  }, [user]);
+
   const [name, setName] = useState(session?.user?.name ?? "");
 
   if (!session?.user) return null;
@@ -44,6 +55,7 @@ const UpdateForm = () => {
 
 export default function ClientExample() {
   const { data: session, status } = useSession();
+
   return (
     <div className="space-y-2">
       <h1 className="text-3xl font-bold">Client Side Rendering Usage</h1>
