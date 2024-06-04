@@ -11,15 +11,12 @@ import CustomLink from "./custom-link";
 const UpdateForm = () => {
   const { user } = useDynamicContext();
   const { data: session, update } = useSession();
-  console.log(session);
 
   useEffect(() => {
-    console.log(user);
-
     if (!user && session?.user) {
       signOut();
     }
-  }, [user]);
+  }, [user, session]);
 
   const [name, setName] = useState(session?.user?.name ?? "");
 
