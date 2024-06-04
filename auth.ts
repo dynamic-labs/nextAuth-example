@@ -35,7 +35,7 @@ export const config = {
         if (jwtPayload) {
           // Transform the JWT payload into your user object
           const user: User = {
-            id: jwtPayload.sub, // Assuming 'sub' is the user ID
+            id: jwtPayload.sub || "", // Assuming 'sub' is the user ID
             name: jwtPayload.name || "", // Replace with actual field from JWT payload
             email: jwtPayload.email || "", // Replace with actual field from JWT payload
             // Map other fields as needed
