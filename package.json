@@ -19,8 +19,8 @@
     "Thang Huu Vu <hi@thvu.dev>"
   ],
   "dependencies": {
-    "@dynamic-labs/ethereum": "^1.0.6",
-    "@dynamic-labs/sdk-react-core": "^1.0.6",
+    "@dynamic-labs/ethereum": "*",
+    "@dynamic-labs/sdk-react-core": "*",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dropdown-menu": "^2.0.5",

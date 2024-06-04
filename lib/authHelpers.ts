@@ -1,7 +1,7 @@
 import jwt, { JwtPayload, Secret, VerifyErrors } from "jsonwebtoken";
 
 export const getKey = (
-  headers,
+  headers: any,
   callback: (err: Error | null, key?: Secret) => void
 ): void => {
   console.log("calling getKey");

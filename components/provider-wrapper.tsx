@@ -1,6 +1,6 @@
 "use client";
 
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, getSession } from "next-auth/react";
 
 import { DynamicContextProvider } from "../lib/dynamic";
 import { EthereumWalletConnectors } from "../lib/dynamic";
@@ -9,11 +9,10 @@ export default function ProviderWrapper({ children }: React.PropsWithChildren) {
   return (
     <DynamicContextProvider
       settings={{
-        environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
+        environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID || '',
         walletConnectors: [EthereumWalletConnectors],
         eventsCallbacks: {
           onAuthSuccess: async (event) => {
-            console.log("auth success from Dynamic", event);
             const { authToken } = event;
 
             const csrfToken = await getCsrfToken();
@@ -29,11 +28,8 @@ export default function ProviderWrapper({ children }: React.PropsWithChildren) {
             })
               .then((res) => {
                 if (res.ok) {
-                  console.log("auth success from nextAuth", res);
-                  // Handle success - maybe redirect to the home page or user dashboard
-                  window.location.reload();
+                  getSession();
                 } else {
-                  // Handle any errors - maybe show an error message to the user
                   console.error("Failed to log in");
                 }
               })
