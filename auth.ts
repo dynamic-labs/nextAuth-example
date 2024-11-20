@@ -30,6 +30,7 @@ export const config = {
         if (typeof token !== "string" || !token) {
           throw new Error("Token is required");
         }
+
         const jwtPayload = await validateJWT(token);
 
         if (jwtPayload) {

@@ -4,8 +4,6 @@ export const getKey = (
   headers: any,
   callback: (err: Error | null, key?: Secret) => void
 ): void => {
-  console.log("calling getKey");
-
   // Define the options for the fetch request
   const options = {
     method: "GET",
@@ -24,12 +22,14 @@ export const getKey = (
     })
     .then((json) => {
       const publicKey = json.key.publicKey;
+
       const pemPublicKey = Buffer.from(publicKey, "base64").toString("ascii");
-      callback(null, pemPublicKey); // Pass the public key to the callback
+      
+      callback(null, pemPublicKey);
     })
     .catch((err) => {
-      console.error(err);
-      callback(err); // Pass the error to the callback
+      console.error("Error fetching public key:", err);
+      callback(err);
     });
 };
 
@@ -40,19 +40,15 @@ export const validateJWT = async (
     const decodedToken = await new Promise<JwtPayload | null>(
       (resolve, reject) => {
         jwt.verify(
-          token,
+          token.trim(),
           getKey,
           { algorithms: ["RS256"] },
-          (
-            err: VerifyErrors | null,
-            decoded: string | JwtPayload | undefined
-          ) => {
-            console.log("decoded the jwt");
+          (err: VerifyErrors | null, decoded: string | JwtPayload | undefined) => {
             if (err) {
+              console.log("JWT verification error:", err);
               reject(err);
             } else {
-              console.log("checking the type of decoded");
-              // Ensure that the decoded token is of type JwtPayload
+              console.log("JWT successfully decoded");
               if (typeof decoded === "object" && decoded !== null) {
                 resolve(decoded);
               } else {
