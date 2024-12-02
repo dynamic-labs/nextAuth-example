@@ -2,7 +2,7 @@
 
 import { getCsrfToken, getSession } from "next-auth/react";
 
-import { DynamicContextProvider } from "../lib/dynamic";
+import { DynamicContextProvider, getAuthToken } from "../lib/dynamic";
 import { EthereumWalletConnectors } from "../lib/dynamic";
 
 export default function ProviderWrapper({ children }: React.PropsWithChildren) {
@@ -13,7 +13,12 @@ export default function ProviderWrapper({ children }: React.PropsWithChildren) {
         walletConnectors: [EthereumWalletConnectors],
         eventsCallbacks: {
           onAuthSuccess: async (event) => {
-            const { authToken } = event;
+            const authToken = getAuthToken();
+            
+            if (!authToken) {
+              console.error("No auth token found");
+              return;
+            }
 
             const csrfToken = await getCsrfToken();
 

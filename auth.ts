@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 
 import type { NextAuthConfig } from "next-auth";
 
-import Credentials from "@auth/core/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
 import { validateJWT } from "./lib/authHelpers";
 
 type User = {
@@ -30,6 +30,7 @@ export const config = {
         if (typeof token !== "string" || !token) {
           throw new Error("Token is required");
         }
+
         const jwtPayload = await validateJWT(token);
 
         if (jwtPayload) {
